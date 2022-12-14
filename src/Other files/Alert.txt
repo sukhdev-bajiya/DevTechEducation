@@ -1,0 +1,123 @@
+ import { useDispatch, useSelector } from "react-redux";
+
+   const { signupLoadingFlag, signupErrorFlag, signupSuccessData } = useSelector(
+    (state) => state
+  );
+  const dispatch = useDispatch();
+ 
+  //   User Profile Update Successfully Alert State
+  const [userProfileUpdateSuccessfullyAlert, setUserProfileUpdateSuccessfullyAlert] =
+    React.useState(false);
+
+  //   User Profile Update Failed Alert State
+  const [userProfileUpdateFailedAlert, setUserProfileUpdateFailedAlert] =
+    React.useState(false);
+
+  //   User Profile Update Error Alert State
+  const [userProfileUpdateErrorAlert, setUserProfileUpdateErrorAlert] =
+    React.useState(false);
+
+  // Alert State handle by Effect
+  React.useEffect(() => {
+    if (signupSuccessData === null) {
+      setUserProfileUpdateSuccessfullyAlert(false);
+      setUserProfileUpdateFailedAlert(false);
+      setUserProfileUpdateErrorAlert(false);
+    }
+    if (
+      signupSuccessData &&
+      signupSuccessData.success &&
+      !signupSuccessData.error
+    ) {
+      setUserProfileUpdateSuccessfullyAlert(true);
+    }
+    if (
+      signupSuccessData &&
+      !signupSuccessData.success &&
+      !signupSuccessData.error
+    ) {
+      setUserProfileUpdateFailedAlert(true);
+    }
+    if (signupErrorFlag) {
+      setUserProfileUpdateErrorAlert(true);
+    }
+  }, [signupErrorFlag, signupSuccessData]);
+
+
+{/* User Profile Update Successfully Alert */}
+<Collapse sx={{ width: "100%" }} in={userProfileUpdateSuccessfullyAlert}>
+<Alert
+    severity="success"
+    action={
+    <Button
+        onClick={() => {
+        return (
+            setUserProfileUpdateSuccessfullyAlert(false), navigate("/signin")
+        );
+        }}
+        color="inherit"
+        size="small"
+    >
+        Login
+    </Button>
+    }
+>
+    <AlertTitle>
+    User ProfileUpdate <strong> Successfully </strong>
+    </AlertTitle>
+    Username and password were <br /> sent successfully to your <br />
+    registered email -{" "}
+    <strong>
+    <a href="https://mail.google.com" target="_blank" rel="noreferrer">
+        check it out!
+    </a>
+    </strong>
+</Alert>
+</Collapse>
+{/* User Profile Update Failed Alert */}
+<Collapse sx={{ width: "100%" }} in={userProfileUpdateFailedAlert}>
+<Alert
+    severity="warning"
+    action={
+    <IconButton
+        aria-label="close"
+        color="inherit"
+        size="small"
+        onClick={() => {
+        setUserProfileUpdateFailedAlert(false);
+        }}
+    >
+        <CloseIcon fontSize="inherit" />
+    </IconButton>
+    }
+>
+    <AlertTitle>
+    User ProfileUpdate <strong> Failed </strong>
+    </AlertTitle>
+    User already exists with <br /> same Email or Number <br /> -{" "}
+    <strong>Use other Email or Number!</strong>
+</Alert>
+</Collapse>
+{/* User ProfileUpdate Failed Alert */}
+<Collapse sx={{ width: "100%" }} in={userProfileUpdateErrorAlert}>
+<Alert
+    severity="error"
+    action={
+    <IconButton
+        aria-label="close"
+        color="inherit"
+        size="small"
+        onClick={() => {
+        setUserProfileUpdateErrorAlert(false);
+        }}
+    >
+        <CloseIcon fontSize="inherit" />
+    </IconButton>
+    }
+>
+    <AlertTitle>
+    User ProfileUpdate <strong> Failed </strong>
+    </AlertTitle>
+    <strong>Try after some time!</strong>
+</Alert>
+</Collapse>

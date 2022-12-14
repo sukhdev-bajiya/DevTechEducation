@@ -1,0 +1,6 @@
+{/* <Box style={{ position: "fixed", width: "100%", zIndex: "10" }}></Box><Box style={{ height: "60px" }}></Box> */}
+
+
+  borderLeft: "0px",
+  borderStyle: "double",
+  padding: "15px 0",

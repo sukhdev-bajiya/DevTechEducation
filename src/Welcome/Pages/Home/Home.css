@@ -1,0 +1,126 @@
+.homePage_backgroundvideo {
+  width: 100%;
+  position: relative;
+}
+.homePage_backgroundvideo video {
+  width: 100%;
+}
+
+.homePage_backgroundvideoText {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #053370c2;
+  display: grid;
+  place-content: center;
+}
+
+.homePage_backgroundvideoText p {
+  color: #ffffff;
+  font-size: 5rem;
+}
+
+.homePage_course {
+  background-image: url("../../../assets/images/choosing-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homePage_course_title {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  border: 2px solid rgb(77, 77, 77);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.homePage_course_title span {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.homePage_course_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 50px;
+}
+
+.homePage_course_listItem {
+  width: 250px;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 10px;
+  padding-bottom: 15px;
+}
+
+.homePage_course_listItem .homePage_course_listItemImage img {
+  width: 250px;
+  height: auto;
+}
+
+.homePage_course_listItemInfo h4 {
+  font-size: 1.2rem;
+  padding: 10px 5px;
+}
+.homePage_course_listItemInfo p {
+  padding: 5px 10px;
+}
+
+.homePage_course_listItemBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+.homePage_course_listItemBtn button {
+  padding: 7px 15px;
+  border: none;
+  background-color: rgb(94, 165, 245);
+  border-radius: 5px;
+  color: white;
+}
+
+.homePage_course_listItemBtn button:first-child {
+  cursor: pointer;
+}
+
+.homePage_welcome_background {
+  background-image: url("../../../assets/images/contact-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  padding: 50px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homePage_welcome_background img {
+  width: 80%;
+}
+
+@media screen and (min-width: 480px) and (max-width: 900px) {
+  .homePage_backgroundvideoText p {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .homePage_backgroundvideoText p {
+    font-size: 1.2rem;
+  }
+}

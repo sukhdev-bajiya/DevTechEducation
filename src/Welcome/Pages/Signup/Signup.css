@@ -1,0 +1,58 @@
+.welcome_signup_logo {
+  align-self: center;
+  width: 50%;
+}
+
+.welcome_signup_formOutsideBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+.welcome_signin_createOne {
+  padding: 0 5px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.welcome_signup_formOutsideBox > div {
+  width: 100%;
+}
+
+.welcome_signup_formOutsideBox > div button {
+  width: 100%;
+}
+
+.welcome_signup_createOne {
+  color: blue !important;
+}
+
+input[name="dateofbirth"] {
+  overflow: hidden;
+  margin-left: 50%;
+  margin-right: 2%;
+}
+
+input[name="dateofbirth"]:focus {
+  margin-left: 0;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+}
+
+.MuiAlert-root {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+}

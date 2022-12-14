@@ -1,0 +1,8 @@
+ // <Typography
+    //   variant="div"
+    //   noWrap
+    //   component="div"
+    //   style={{ display: "grid", gap: "15px", padding: "15px" }}
+    //   sx={{ gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" } }}
+    // > 
+    // </Typography>

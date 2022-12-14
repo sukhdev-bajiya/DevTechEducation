@@ -1,0 +1,24 @@
+.welcome_signin_logo {
+    align-self: center;
+    width: 50%;
+}
+
+.welcome_signin_formOutsideBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.welcome_signin_formOutsideBox>div {
+    width: 100%;
+}
+
+.welcome_signin_formOutsideBox>div button {
+    width: 100%;
+}
+
+.welcome_signin_createOne {
+    color: blue !important;
+}
