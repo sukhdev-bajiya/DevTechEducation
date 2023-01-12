@@ -63,9 +63,9 @@ function EditLecturesData() {
       setEditLecturesSuccessfullyAlert(false);
       setEditLecturesFailedAlert(false);
       setEditLecturesErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setEditLecturesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setEditLecturesFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setEditLecturesErrorAlert(true);

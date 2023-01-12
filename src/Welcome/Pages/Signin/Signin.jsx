@@ -50,14 +50,13 @@ export default function SignIn() {
     if (signinSuccessData === null) {
       setUserLoginFailedAlert(false);
       setUserLoginErrorAlert(false);
-    }
-    if (
-      signinSuccessData &&
-      signinSuccessData.success &&
-      !signinSuccessData.error
-    ) {
+    } else if (signinSuccessData && signinSuccessData.status === "success") {
+      localStorage.setItem("user", signinSuccessData.data);
+      sessionStorage.setItem("user", JSON.stringify(signinSuccessData));
+
       setloading(true);
       setTimeout(() => {
+        setloading(false);
         if (signinSuccessData.user.role === "admin") {
           navigate("/admin/dashboard");
         } else if (signinSuccessData.user.role === "teacher") {
@@ -65,19 +64,10 @@ export default function SignIn() {
         } else if (signinSuccessData.user.role === "student") {
           navigate("/student/dashboard");
         }
-        setloading(false);
       }, 5000);
-      localStorage.setItem("user", signinSuccessData.data);
-      sessionStorage.setItem("user", JSON.stringify(signinSuccessData));
-    }
-    if (
-      signinSuccessData &&
-      !signinSuccessData.success &&
-      !signinSuccessData.error
-    ) {
+    } else if (signinSuccessData && signinSuccessData.status === "fail") {
       setUserLoginFailedAlert(true);
-    }
-    if (signinErrorFlag) {
+    } else if (signinSuccessData && signinSuccessData.status === "error") {
       setUserLoginErrorAlert(true);
     }
   }, [navigate, signinErrorFlag, signinSuccessData]);
@@ -107,9 +97,6 @@ export default function SignIn() {
 
     // Call fetch function
     dispatch(userSignInFun(inputBoxValue));
-
-    // Empty form data
-    // setInputBoxValue({ password: "", username: "" });
   };
 
   // Open Option for Reset Password and Get Username Function
@@ -124,144 +111,186 @@ export default function SignIn() {
   };
 
   return (
-    <Typography
-      variant="div"
-      noWrap
-      component="div"
-      style={outerBoxForForm}
-      sx={{ width: { xs: "90%", sm: "50%" }, overflow: "hidden" }}
-    >
-      {/* Logo Part */}
-      <Link to={"/"}>
-        <img src={logonight} alt="" className="welcome_signin_logo" />
-      </Link>
-      {/* Signin form */}
-      <form className="welcome_signin_formOutsideBox" onSubmit={signinformdata}>
-        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-          <InputLabel htmlFor="welcome_signin_username"> Username </InputLabel>
-          <Input
-            required
-            type="number"
-            onChange={handleOnChangeInputBoxValue}
-            name="username"
-            value={inputBoxValue.username}
-            id="welcome_signin_username"
-            endAdornment={
-              <Tooltip title="Enter your 13 digit username">
-                <IconButton style={{ width: "40px" }}>
-                  <AccountCircle />
-                </IconButton>
-              </Tooltip>
-            }
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-          <InputLabel htmlFor="welcome_signin_password">Password</InputLabel>
-          <Input
-            required
-            name="password"
-            value={inputBoxValue.password}
-            id="welcome_signin_password"
-            type={valuesPasswordViewPart ? "text" : "password"}
-            onChange={handleOnChangeInputBoxValue}
-            endAdornment={
-              <Tooltip title="Enter your password">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  style={{ width: "40px" }}
-                >
-                  {valuesPasswordViewPart ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </Tooltip>
-            }
-          />
-        </FormControl>
-        <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
-          <Button type="submit">
-            {signinLoadingFlag || loading ? (
-              <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
-            ) : (
-              ""
-            )}
-            Login
-          </Button>
-        </Stack>
-      </form>
-
-      {/* Link Page Box */}
-      <Box>
-        <p>
-          {" "}
-          No account?{" "}
-          <Link to="/signup" className="welcome_signin_createOne">
-            Create New Account
-          </Link>{" "}
-        </p>
-      </Box>
-
-      {/* User Option for Reset Password and Get Username */}
-      <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
-        <Button onClick={() => openFormDialogFun(0)}>Reset Password</Button>
-        <Button onClick={() => openFormDialogFun(1)}>Get Username</Button>
-      </Stack>
-
-      {/* User Login Failed Alert */}
-      <Collapse sx={{ width: "100%" }} in={userLoginFailedAlert}>
-        <Alert
-          severity="warning"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setUserLoginFailedAlert(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
+    <>
+      {loading ? (
+        <div
+          style={{
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
         >
-          <AlertTitle>
-            User Signin <strong> Failed </strong>
-          </AlertTitle>
-          <strong>Enter valid Username or Password!</strong>
-        </Alert>
-      </Collapse>
-      {/* User Login Failed Alert */}
-      <Collapse sx={{ width: "100%" }} in={userLoginErrorAlert}>
-        <Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setUserLoginErrorAlert(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
-          <AlertTitle>
-            User Signin <strong> Failed </strong>
-          </AlertTitle>
-          <strong>Try after some time!</strong>
-        </Alert>
-      </Collapse>
-
-      {/* User Option for Reset Password and Get Username Function*/}
-      {openFormDialogFunIndex === 0 ? (
-        <ResetPassword />
-      ) : openFormDialogFunIndex === 1 ? (
-        <ResetUsername />
+          <h1>Welcome To</h1>
+          <img
+            src={logonight}
+            alt=""
+            style={{ width: "250px", marginTop: "25px" }}
+          />
+          <img
+            src={freeLoadGif}
+            alt=""
+            style={{ width: "100px", marginTop: "25px" }}
+          />
+        </div>
       ) : (
-        ""
+        <Typography
+          variant="div"
+          noWrap
+          component="div"
+          style={outerBoxForForm}
+          sx={{ width: { xs: "90%", sm: "50%" }, overflow: "hidden" }}
+        >
+          {/* Logo Part */}
+          <Link to={"/"}>
+            <img src={logonight} alt="" className="welcome_signin_logo" />
+          </Link>
+          {/* Signin form */}
+          <form
+            className="welcome_signin_formOutsideBox"
+            onSubmit={signinformdata}
+          >
+            <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
+              <InputLabel htmlFor="welcome_signin_username">
+                {" "}
+                Username{" "}
+              </InputLabel>
+              <Input
+                required
+                type="number"
+                onChange={handleOnChangeInputBoxValue}
+                name="username"
+                value={inputBoxValue.username}
+                id="welcome_signin_username"
+                endAdornment={
+                  <Tooltip title="Enter your 13 digit username">
+                    <IconButton style={{ width: "40px" }}>
+                      <AccountCircle />
+                    </IconButton>
+                  </Tooltip>
+                }
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
+              <InputLabel htmlFor="welcome_signin_password">
+                Password
+              </InputLabel>
+              <Input
+                required
+                name="password"
+                value={inputBoxValue.password}
+                id="welcome_signin_password"
+                type={valuesPasswordViewPart ? "text" : "password"}
+                onChange={handleOnChangeInputBoxValue}
+                endAdornment={
+                  <Tooltip title="Enter your password">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      style={{ width: "40px" }}
+                    >
+                      {valuesPasswordViewPart ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                }
+              />
+            </FormControl>
+            <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
+              {signinLoadingFlag || loading ? (
+                <img
+                  src={freeLoadGif}
+                  alt=""
+                  style={{ width: "50px", margin: "auto" }}
+                />
+              ) : (
+                <Button type="submit" disabled={loading}>
+                  Login
+                </Button>
+              )}
+            </Stack>
+          </form>
+
+          {/* Link Page Box */}
+          <Box>
+            <p>
+              {" "}
+              No account?{" "}
+              <Link to="/signup" className="welcome_signin_createOne">
+                Create New Account
+              </Link>{" "}
+            </p>
+          </Box>
+
+          {/* User Option for Reset Password and Get Username */}
+          <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
+            <Button onClick={() => openFormDialogFun(0)}>Reset Password</Button>
+            <Button onClick={() => openFormDialogFun(1)}>Get Username</Button>
+          </Stack>
+
+          {/* User Login Failed Alert */}
+          <Collapse sx={{ width: "100%" }} in={userLoginFailedAlert}>
+            <Alert
+              severity="warning"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setUserLoginFailedAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              <AlertTitle>
+                User Signin <strong> Failed </strong>
+              </AlertTitle>
+              <strong>Enter valid Username or Password!</strong>
+            </Alert>
+          </Collapse>
+          {/* User Login Failed Alert */}
+          <Collapse sx={{ width: "100%" }} in={userLoginErrorAlert}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setUserLoginErrorAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              <AlertTitle>
+                User Signin <strong> Failed </strong>
+              </AlertTitle>
+              <strong>Try after some time!</strong>
+            </Alert>
+          </Collapse>
+
+          {/* User Option for Reset Password and Get Username Function*/}
+          {openFormDialogFunIndex === 0 ? (
+            <ResetPassword />
+          ) : openFormDialogFunIndex === 1 ? (
+            <ResetUsername />
+          ) : (
+            ""
+          )}
+        </Typography>
       )}
-    </Typography>
+    </>
   );
 }
 

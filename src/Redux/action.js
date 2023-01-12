@@ -91,14 +91,18 @@ export const userSignInFun = (data) => (dispatch) => {
     .then((res) => res.json())
     .then((res) => {
       if (res.userDeactive) {
-        alert("User is not active, please contact your administrator");
+        alert(
+          "User is not active, please contact your administrator, devtecheducation@gmail.com"
+        );
         return dispatch(signinError(res));
-      } else {
+      } else if (res.status === "success") {
         return (
           cookies.set("devtechusercookie", res.token, { path: "/" }),
           dispatch(signinSuccess(res)),
           dispatch(getallstudentuserlistFun())
         );
+      } else {
+        return dispatch(signinSuccess(res));
       }
     })
     .catch(() => dispatch(signinError()));
@@ -151,7 +155,7 @@ export const updateUserProfileFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => dispatch(userprofileupdating(res)))
-    .catch(() => dispatch(userprofileupdating({ status: "error" })));
+    .catch((err) => dispatch(userprofileupdating(err)));
 };
 
 //
@@ -234,7 +238,7 @@ export const resetUsernameFun = (data) => (dispatch) => {
 //
 //
 
-export const getallstudentuserlistFun = () => (dispatch) => {
+export const getallstudentuserlistFun = () => {
   fetch(`https://devtecheducation.onrender.com/user/getalluserlist`, {
     method: "GET",
     headers: {
@@ -244,7 +248,7 @@ export const getallstudentuserlistFun = () => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.success) {
+      if (res.status === "success") {
         if (res.teacher) localStorage.setItem("c_t_user", res.teacher);
         if (res.student) localStorage.setItem("c_s_user", res.student);
         if (res.course) localStorage.setItem("c_c_course", res.course);
@@ -276,7 +280,7 @@ export const addnewUserFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -287,6 +291,7 @@ export const addnewUserFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const deActiveUserFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/user/deactive`, {
     method: "POST",
@@ -298,7 +303,7 @@ export const deActiveUserFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -309,6 +314,7 @@ export const deActiveUserFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const editUserFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/user/edit`, {
     method: "POST",
@@ -320,7 +326,7 @@ export const editUserFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -343,7 +349,7 @@ export const addNewCourseFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -354,6 +360,7 @@ export const addNewCourseFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const editCourseFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/learn/edit/course`, {
     method: "POST",
@@ -365,7 +372,7 @@ export const editCourseFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -376,6 +383,7 @@ export const editCourseFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const deleteCourseFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/learn/delete/course`, {
     method: "POST",
@@ -387,7 +395,7 @@ export const deleteCourseFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -410,7 +418,7 @@ export const addNewSubjectFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -421,6 +429,7 @@ export const addNewSubjectFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const editSubjectFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/learn/edit/subject`, {
     method: "POST",
@@ -432,7 +441,7 @@ export const editSubjectFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -443,6 +452,7 @@ export const editSubjectFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const deleteSubjectFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/learn/delete/subject`, {
     method: "POST",
@@ -454,7 +464,7 @@ export const deleteSubjectFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -477,7 +487,7 @@ export const addNewLecturesFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -488,6 +498,7 @@ export const addNewLecturesFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const editLecturesFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/learn/edit/lectures`, {
     method: "POST",
@@ -499,7 +510,7 @@ export const editLecturesFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -510,6 +521,7 @@ export const editLecturesFun = (data) => (dispatch) => {
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
+
 export const deleteLecturesFun = (data) => (dispatch) => {
   fetch(`https://devtecheducation.onrender.com/learn/delete/lectures`, {
     method: "POST",
@@ -521,7 +533,7 @@ export const deleteLecturesFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
       dispatch(addnewUser(res));
@@ -544,10 +556,10 @@ export const buyaCourse = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.status === "true") {
+      if (res.status === "success") {
         localStorage.setItem("user", res.data);
+        dispatch(addnewUser(res));
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
         dispatch(addnewUser(null));

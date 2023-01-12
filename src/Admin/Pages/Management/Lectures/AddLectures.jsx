@@ -61,9 +61,9 @@ function AddLectures() {
       setAddLecturesSuccessfullyAlert(false);
       setAddLecturesFailedAlert(false);
       setAddLecturesErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setAddLecturesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setAddLecturesFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setAddLecturesErrorAlert(true);

@@ -58,9 +58,9 @@ function EditCoursesData() {
       setEditCoursesSuccessfullyAlert(false);
       setEditCoursesFailedAlert(false);
       setEditCoursesErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setEditCoursesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setEditCoursesFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setEditCoursesErrorAlert(true);

@@ -99,9 +99,9 @@ function DeleteTeacher() {
       setDeactiveTeacherSuccessfullyAlert(false);
       setDeactiveTeacherFailedAlert(false);
       setDeactiveTeacherErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setDeactiveTeacherSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setDeactiveTeacherFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setDeactiveTeacherErrorAlert(true);

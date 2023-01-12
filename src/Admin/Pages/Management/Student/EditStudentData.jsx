@@ -108,9 +108,9 @@ function EditStudentData() {
       setEditStudentSuccessfullyAlert(false);
       setEditStudentFailedAlert(false);
       setEditStudentErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setEditStudentSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setEditStudentFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setEditStudentErrorAlert(true);

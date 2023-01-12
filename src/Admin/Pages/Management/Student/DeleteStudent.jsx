@@ -100,9 +100,9 @@ function DeleteStudent() {
       setDeactiveStudentSuccessfullyAlert(false);
       setDeactiveStudentFailedAlert(false);
       setDeactiveStudentErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setDeactiveStudentSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setDeactiveStudentFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setDeactiveStudentErrorAlert(true);

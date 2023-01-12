@@ -59,9 +59,9 @@ function AddUnitSubject() {
       setAddSubjectSuccessfullyAlert(false);
       setAddSubjectFailedAlert(false);
       setAddSubjectErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setAddSubjectSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setAddSubjectFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setAddSubjectErrorAlert(true);

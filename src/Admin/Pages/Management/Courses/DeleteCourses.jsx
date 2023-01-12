@@ -58,9 +58,9 @@ function DeleteCourses() {
       setDeleteCoursesSuccessfullyAlert(false);
       setDeleteCoursesFailedAlert(false);
       setDeleteCoursesErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setDeleteCoursesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setDeleteCoursesFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setDeleteCoursesErrorAlert(true);

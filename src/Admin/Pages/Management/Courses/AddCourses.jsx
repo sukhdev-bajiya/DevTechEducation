@@ -51,9 +51,9 @@ function AddCourses() {
       setAddCourseSuccessfullyAlert(false);
       setAddCourseFailedAlert(false);
       setAddCourseErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setAddCourseSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setAddCourseFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setAddCourseErrorAlert(true);

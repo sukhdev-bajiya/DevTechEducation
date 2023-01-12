@@ -63,9 +63,9 @@ function DeleteLectures() {
       setDeleteLecturesSuccessfullyAlert(false);
       setDeleteLecturesFailedAlert(false);
       setDeleteLecturesErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setDeleteLecturesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setDeleteLecturesFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setDeleteLecturesErrorAlert(true);

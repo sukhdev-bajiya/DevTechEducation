@@ -62,9 +62,9 @@ function DeleteUnitSubject() {
       setDeleteSubjectSuccessfullyAlert(false);
       setDeleteSubjectFailedAlert(false);
       setDeleteSubjectErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setDeleteSubjectSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setDeleteSubjectFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setDeleteSubjectErrorAlert(true);

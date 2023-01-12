@@ -64,9 +64,9 @@ function EditUnitSubjectData() {
       setEditSubjectSuccessfullyAlert(false);
       setEditSubjectFailedAlert(false);
       setEditSubjectErrorAlert(false);
-    } else if (addUserStatus.status === "true") {
+    } else if (addUserStatus.status === "success") {
       setEditSubjectSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "false") {
+    } else if (addUserStatus.status === "fail") {
       setEditSubjectFailedAlert(true);
     } else if (addUserStatus.status === "error") {
       setEditSubjectErrorAlert(true);

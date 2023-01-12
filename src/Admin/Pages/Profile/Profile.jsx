@@ -75,7 +75,7 @@ export default function Profile() {
     if (
       userProfileUpdate !== null &&
       userProfileUpdate !== undefined &&
-      userProfileUpdate.status === "false"
+      userProfileUpdate.status === "fail"
     ) {
       setUserProfileUpdateFailedAlert(true);
       setTimeout(() => {
