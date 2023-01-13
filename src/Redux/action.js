@@ -7,10 +7,8 @@ import {
   SIGNUP_ERROR,
   SIGNUP_SUCCESS,
   RESETPASSWORD_LOADING,
-  RESETPASSWORD_ERROR,
   RESETPASSWORD_SUCCESS,
   RESETUSERNAME_LOADING,
-  RESETUSERNAME_ERROR,
   RESETUSERNAME_SUCCESS,
   USER_PROFILE_UPDATE,
   ADD_USER_STATUS,
@@ -45,7 +43,7 @@ export const signupSuccess = (payload) => ({
 
 export const userSignUpFun = (data) => (dispatch) => {
   dispatch(signupLoading());
-  fetch(`https://devtecheducation.onrender.com/auth/signup`, {
+  fetch(`http://localhost:8080/auth/signup`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
@@ -83,7 +81,7 @@ export const signinSuccess = (payload) => ({
 
 export const userSignInFun = (data) => (dispatch) => {
   dispatch(signinLoading());
-  fetch(`https://devtecheducation.onrender.com/auth/signin`, {
+  fetch(`http://localhost:8080/auth/signin`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
@@ -119,7 +117,7 @@ export const gotoDashboard = () => (dispatch) => {
     cookies.get("devtechusercookie") &&
     cookies.get("devtechusercookie") !== ""
   ) {
-    fetch(`https://devtecheducation.onrender.com/auth/goto/dashboard`, {
+    fetch(`http://localhost:8080/auth/goto/dashboard`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -145,7 +143,7 @@ export const userprofileupdating = (payload) => ({
 
 export const updateUserProfileFun = (data) => (dispatch) => {
   dispatch(userprofileupdating({ status: "loading" }));
-  fetch(`https://devtecheducation.onrender.com/auth/update/profile`, {
+  fetch(`http://localhost:8080/auth/update/profile`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -154,7 +152,15 @@ export const updateUserProfileFun = (data) => (dispatch) => {
     },
   })
     .then((res) => res.json())
-    .then((res) => dispatch(userprofileupdating(res)))
+    .then((res) => {
+      if (res.status === "success") {
+        localStorage.setItem("user", res.data.data);
+      }
+      dispatch(userprofileupdating(res));
+      setTimeout(() => {
+        dispatch(userprofileupdating({ status: "null" }));
+      }, 5000);
+    })
     .catch((err) => dispatch(userprofileupdating(err)));
 };
 
@@ -168,10 +174,7 @@ export const resetPasswordLoading = (payload) => ({
   type: RESETPASSWORD_LOADING,
   payload,
 });
-export const resetPasswordError = (payload) => ({
-  type: RESETPASSWORD_ERROR,
-  payload,
-});
+
 export const resetPasswordSuccess = (payload) => ({
   type: RESETPASSWORD_SUCCESS,
   payload,
@@ -179,26 +182,21 @@ export const resetPasswordSuccess = (payload) => ({
 
 export const resetPasswordFun = (data) => (dispatch) => {
   dispatch(resetPasswordLoading());
-  fetch(`https://devtecheducation.onrender.com/auth/reset/password`, {
+  fetch(`http://localhost:8080/auth/reset/password`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   })
     .then((res) => res.json())
-    .then((res) => dispatch(resetPasswordSuccess(res)))
-    .catch(() => dispatch(resetPasswordError()));
-};
-
-export const resetAndUpdatePasswordFun = (data) => (dispatch) => {
-  dispatch(resetPasswordLoading());
-  fetch(`https://devtecheducation.onrender.com/auth/update/password`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => res.json())
-    .then((res) => dispatch(resetPasswordSuccess(res)))
-    .catch(() => dispatch(resetPasswordError()));
+    .then((res) => {
+      return (
+        dispatch(resetPasswordSuccess(res)),
+        setTimeout(() => {
+          dispatch(resetPasswordSuccess(null));
+        }, 5000)
+      );
+    })
+    .catch((err) => dispatch(resetPasswordSuccess(err)));
 };
 
 //
@@ -211,10 +209,7 @@ export const resetUsernameLoading = (payload) => ({
   type: RESETUSERNAME_LOADING,
   payload,
 });
-export const resetUsernameError = (payload) => ({
-  type: RESETUSERNAME_ERROR,
-  payload,
-});
+
 export const resetUsernameSuccess = (payload) => ({
   type: RESETUSERNAME_SUCCESS,
   payload,
@@ -222,14 +217,21 @@ export const resetUsernameSuccess = (payload) => ({
 
 export const resetUsernameFun = (data) => (dispatch) => {
   dispatch(resetUsernameLoading());
-  fetch(`https://devtecheducation.onrender.com/auth/get/username`, {
+  fetch(`http://localhost:8080/auth/get/username`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   })
     .then((res) => res.json())
-    .then((res) => dispatch(resetUsernameSuccess(res)))
-    .catch(() => dispatch(resetUsernameError()));
+    .then((res) => {
+      return (
+        dispatch(resetUsernameSuccess(res)),
+        setTimeout(() => {
+          dispatch(resetUsernameSuccess(null));
+        }, 5000)
+      );
+    })
+    .catch((err) => dispatch(resetUsernameSuccess(err)));
 };
 
 //
@@ -239,7 +241,7 @@ export const resetUsernameFun = (data) => (dispatch) => {
 //
 
 export const getallstudentuserlistFun = () => {
-  fetch(`https://devtecheducation.onrender.com/user/getalluserlist`, {
+  fetch(`http://localhost:8080/user/getalluserlist`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -270,7 +272,7 @@ export const addnewUser = (payload) => ({
 });
 
 export const addnewUserFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/user/add/newuser`, {
+  fetch(`http://localhost:8080/user/add/newuser`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -293,7 +295,7 @@ export const addnewUserFun = (data) => (dispatch) => {
 };
 
 export const deActiveUserFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/user/deactive`, {
+  fetch(`http://localhost:8080/user/deactive`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -316,7 +318,7 @@ export const deActiveUserFun = (data) => (dispatch) => {
 };
 
 export const editUserFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/user/edit`, {
+  fetch(`http://localhost:8080/user/edit`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -339,7 +341,7 @@ export const editUserFun = (data) => (dispatch) => {
 };
 
 export const addNewCourseFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/add/course`, {
+  fetch(`http://localhost:8080/learn/add/course`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -362,7 +364,7 @@ export const addNewCourseFun = (data) => (dispatch) => {
 };
 
 export const editCourseFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/edit/course`, {
+  fetch(`http://localhost:8080/learn/edit/course`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -385,7 +387,7 @@ export const editCourseFun = (data) => (dispatch) => {
 };
 
 export const deleteCourseFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/delete/course`, {
+  fetch(`http://localhost:8080/learn/delete/course`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -408,7 +410,7 @@ export const deleteCourseFun = (data) => (dispatch) => {
 };
 
 export const addNewSubjectFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/add/subject`, {
+  fetch(`http://localhost:8080/learn/add/subject`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -431,7 +433,7 @@ export const addNewSubjectFun = (data) => (dispatch) => {
 };
 
 export const editSubjectFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/edit/subject`, {
+  fetch(`http://localhost:8080/learn/edit/subject`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -454,7 +456,7 @@ export const editSubjectFun = (data) => (dispatch) => {
 };
 
 export const deleteSubjectFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/delete/subject`, {
+  fetch(`http://localhost:8080/learn/delete/subject`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -477,7 +479,7 @@ export const deleteSubjectFun = (data) => (dispatch) => {
 };
 
 export const addNewLecturesFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/add/lectures`, {
+  fetch(`http://localhost:8080/learn/add/lectures`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -500,7 +502,7 @@ export const addNewLecturesFun = (data) => (dispatch) => {
 };
 
 export const editLecturesFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/edit/lectures`, {
+  fetch(`http://localhost:8080/learn/edit/lectures`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -523,7 +525,7 @@ export const editLecturesFun = (data) => (dispatch) => {
 };
 
 export const deleteLecturesFun = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/delete/lectures`, {
+  fetch(`http://localhost:8080/learn/delete/lectures`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -546,7 +548,7 @@ export const deleteLecturesFun = (data) => (dispatch) => {
 };
 
 export const buyaCourse = (data) => (dispatch) => {
-  fetch(`https://devtecheducation.onrender.com/learn/buy/course`, {
+  fetch(`http://localhost:8080/learn/buy/course`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {

@@ -11,12 +11,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import PhoneIcon from "@mui/icons-material/Phone";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { NativeSelect, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getuserdata } from "../../../Redux/function";
@@ -32,6 +31,7 @@ export default function UpdateProfile() {
   // set user Input Box Value
   let devTechUserData = getuserdata();
   let inputBoxAddressValuefromuser;
+
   if (devTechUserData.postAddress) {
     inputBoxAddressValuefromuser = {
       address: devTechUserData.postAddress.address || "",
@@ -59,13 +59,6 @@ export default function UpdateProfile() {
     email: devTechUserData.email,
     number: devTechUserData.number,
     dateofbirth: devTechUserData.dateofbirth,
-    securityAnswer1: "",
-    securityAnswer2: "",
-    securityQuestion1:
-      devTechUserData.securityQuestion1 || "What is your favorite movie?",
-    securityQuestion2:
-      devTechUserData.securityQuestion2 ||
-      "Who is your favorite actor, musician, or artist?",
   });
   const [inputBoxAddressValue, setInputBoxAddressValue] = React.useState(
     inputBoxAddressValuefromuser
@@ -86,24 +79,6 @@ export default function UpdateProfile() {
     event.preventDefault();
     inputBoxValue.postAddress = inputBoxAddressValue;
     dispatch(updateUserProfileFun(inputBoxValue));
-
-    setInputBoxValue({
-      name: devTechUserData.name,
-      username: devTechUserData.username,
-      password: "",
-      confirmPassword: "",
-      oldpassword: "",
-      email: devTechUserData.email,
-      number: devTechUserData.number,
-      dateofbirth: devTechUserData.dateofbirth,
-      securityAnswer1: "",
-      securityAnswer2: "",
-      securityQuestion1:
-        devTechUserData.securityQuestion1 || "What is your favorite movie?",
-      securityQuestion2:
-        devTechUserData.securityQuestion2 ||
-        "Who is your favorite actor, musician, or artist?",
-    });
   };
 
   // Password show and hide button part
@@ -301,93 +276,8 @@ export default function UpdateProfile() {
           />
         </FormControl>
 
-        {/* Security Question */}
-        <Box>Security Question</Box>
-        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-          <InputLabel
-            variant="standard"
-            htmlFor="user_profile_update_securityQuestion1"
-          >
-            {" "}
-            Security Question
-          </InputLabel>
-          <NativeSelect
-            id="user_profile_update_securityQuestion1"
-            value={inputBoxValue.securityQuestion1}
-            onChange={handleOnChangeInputBoxValue}
-            name="securityQuestion1"
-          >
-            {forgotPasswordQuestionsList.map((ques, index) => (
-              <option key={index} value={ques}>
-                {ques}
-              </option>
-            ))}
-          </NativeSelect>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-          <InputLabel htmlFor="user_profile_update_securityAnswer1">
-            {" "}
-            Security Question Answer
-          </InputLabel>
-          <Input
-            required
-            onChange={handleOnChangeInputBoxValue}
-            name="securityAnswer1"
-            value={inputBoxValue.securityAnswer1}
-            id="user_profile_update_securityAnswer1"
-            endAdornment={
-              <Tooltip title="Answer length is more then 3">
-                <IconButton style={{ width: "40px" }}>
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            }
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-          <InputLabel
-            variant="standard"
-            htmlFor="user_profile_update_securityQuestion2"
-          >
-            {" "}
-            Security Question
-          </InputLabel>
-          <NativeSelect
-            id="user_profile_update_securityQuestion2"
-            value={inputBoxValue.securityQuestion2}
-            onChange={handleOnChangeInputBoxValue}
-            name="securityQuestion2"
-          >
-            {forgotPasswordQuestionsList.map((ques, index) => (
-              <option key={index} value={ques}>
-                {ques}
-              </option>
-            ))}
-          </NativeSelect>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-          <InputLabel htmlFor="user_profile_update_securityAnswer2">
-            {" "}
-            Security Question Answer
-          </InputLabel>
-          <Input
-            required
-            onChange={handleOnChangeInputBoxValue}
-            name="securityAnswer2"
-            value={inputBoxValue.securityAnswer2}
-            id="user_profile_update_securityAnswer21"
-            endAdornment={
-              <Tooltip title="Answer length is more then 3">
-                <IconButton style={{ width: "40px" }}>
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            }
-          />
-        </FormControl>
-
         {/* Update User Password */}
-        <Box>Update User Password</Box>
+        <Box>Update Password</Box>
         <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
           <InputLabel htmlFor="user_profile_update_password">
             New Password
@@ -481,20 +371,24 @@ export default function UpdateProfile() {
 
         <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
           <Button type="submit">
-            {userProfileUpdate !== null &&
-            userProfileUpdate !== undefined &&
-            userProfileUpdate.status === "loading" ? (
+            {!userProfileUpdate || userProfileUpdate.status === "null" ? (
+              "Update Profile"
+            ) : userProfileUpdate.status === "loading" ? (
               <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
+            ) : userProfileUpdate.status === "success" ? (
+              "Profile Update successfully"
             ) : (
-              ""
+              "Profile Not Update, Try Again later"
             )}
-            Update Profile
           </Button>
         </Stack>
       </form>
     </Typography>
   );
 }
+
+//
+
 // Style Part
 const outerBoxForForm = {
   display: "flex",
@@ -510,29 +404,3 @@ const outerBoxForForm = {
   borderStyle: "double",
   padding: "15px 0",
 };
-
-//   Security Question List
-const forgotPasswordQuestionsList = [
-  "What is your favorite movie?",
-  "What is the first and last name of your first boyfriend or girlfriend?",
-  "Which phone number do you remember most from your childhood?",
-  "What was your favorite place to visit as a child?",
-  "Who is your favorite actor, musician, or artist?",
-  "What is the name of your favorite pet?",
-  "In what city were you born?",
-  "What high school did you attend?",
-  "What is the name of your first school?",
-  "What is your mother's maiden name?",
-  "What street did you grow up on?",
-  "What was the make of your first car?",
-  "When is your anniversary?",
-  "What is your favorite color?",
-  "What is your father's middle name?",
-  "What is the name of your first grade teacher?",
-  "What was your high school mascot?",
-  "Which is your favorite web browser?",
-  "what is your favorite website?",
-  "what is your favorite forum?",
-  "what is your favorite online platform?",
-  "what is your favorite social media website?",
-];

@@ -29,7 +29,7 @@ I am pursuing a Full Stack Web Development course at Masai school, In Masai scho
 > GitHub - [Client Code](https://github.com/sukhdev-bajiya/DevTechEducation) <br>
 > GitHub - [Backend Code](https://github.com/sukhdev-bajiya/DevTechEducation_server) <br>
 > Netlify - [Client Live](https://devtecheducation.netlify.app/) <br>
-> Render - [Backend Live](https://devtecheducation.onrender.com/) <br>
+> Render - [Backend Live](http://localhost:8080/) <br>
 > Hash node - [Blog](https://devtecheducation.hashnode.dev/dev-tech-education)
 
 # Technology Used
