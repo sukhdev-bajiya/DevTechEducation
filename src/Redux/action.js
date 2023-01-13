@@ -272,6 +272,7 @@ export const addnewUser = (payload) => ({
 });
 
 export const addnewUserFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/user/add/newuser`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -282,19 +283,20 @@ export const addnewUserFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
+        dispatch(addnewUser({ status: "null" }));
       }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const deActiveUserFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/user/deactive`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -305,19 +307,20 @@ export const deActiveUserFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
+        dispatch(addnewUser({ status: "null" }));
       }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const editUserFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/user/edit`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -328,19 +331,20 @@ export const editUserFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const addNewCourseFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/add/course`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -351,19 +355,20 @@ export const addNewCourseFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const editCourseFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/edit/course`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -374,19 +379,20 @@ export const editCourseFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const deleteCourseFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/delete/course`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -397,19 +403,20 @@ export const deleteCourseFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const addNewSubjectFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/add/subject`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -420,19 +427,20 @@ export const addNewSubjectFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const editSubjectFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/edit/subject`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -443,19 +451,20 @@ export const editSubjectFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const deleteSubjectFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/delete/subject`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -466,19 +475,20 @@ export const deleteSubjectFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const addNewLecturesFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/add/lectures`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -489,19 +499,20 @@ export const addNewLecturesFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const editLecturesFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/edit/lectures`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -512,19 +523,20 @@ export const editLecturesFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const deleteLecturesFun = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/delete/lectures`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -535,19 +547,20 @@ export const deleteLecturesFun = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
+      dispatch(addnewUser(res));
       if (res.status === "success") {
         dispatch(getallstudentuserlistFun());
       }
-      dispatch(addnewUser(res));
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };
 
 export const buyaCourse = (data) => (dispatch) => {
+  dispatch(addnewUser({ status: "loading" }));
   fetch(`http://localhost:8080/learn/buy/course`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -564,8 +577,8 @@ export const buyaCourse = (data) => (dispatch) => {
       }
 
       setTimeout(() => {
-        dispatch(addnewUser(null));
-      }, 3000);
+        dispatch(addnewUser({ status: "null" }));
+      }, 5000);
     })
     .catch((err) => dispatch(addnewUser(err)));
 };

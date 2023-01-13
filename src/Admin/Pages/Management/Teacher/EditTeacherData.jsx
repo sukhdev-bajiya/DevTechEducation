@@ -37,7 +37,7 @@ function EditTeacherData() {
   const dispatch = useDispatch();
   let devtechUserList = getdatatoprint("c_t_user") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
 
   const [devTechUserData, setDevTechUserData] = React.useState({
     name: "",
@@ -76,18 +76,6 @@ function EditTeacherData() {
     devTechUserData.email = inputuseremailBoxValue;
     devTechUserData.number = inputusernumberBoxValue;
     dispatch(editUserFun(devTechUserData));
-
-    setInputreasonBoxValue("");
-    setInputuserBoxValue("");
-    setInputusernameBoxValue("");
-    setInputuseremailBoxValue("");
-    setInputusernumberBoxValue("");
-    setDevTechUserData({
-      name: "",
-      username: "",
-      email: "",
-      number: "",
-    });
   };
 
   //   User Successfully Alert State
@@ -104,21 +92,19 @@ function EditTeacherData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (functionWorkStatus.status === "null") {
       setEditTeacherSuccessfullyAlert(false);
       setEditTeacherFailedAlert(false);
       setEditTeacherErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setEditTeacherSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setOpenFromDialogEditTeacherData(false);
+    } else if (functionWorkStatus.status === "fail") {
       setEditTeacherFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setEditTeacherErrorAlert(true);
     }
-    if (devtechUserList.length > 0) {
-      setInputuserBoxValue(devtechUserList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   return (
     <Dialog open={openFromDialogEditTeacherData}>
@@ -141,6 +127,7 @@ function EditTeacherData() {
               onChange={(e) => setInputuserBoxValue(e.target.value)}
               name="user"
             >
+              <option value="">Select Teacher</option>
               {devtechUserList.map((user, index) => (
                 <option key={index} value={user._id}>
                   {user.name} ({user.username})
@@ -281,7 +268,7 @@ function EditTeacherData() {
                   : false
               }
             >
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

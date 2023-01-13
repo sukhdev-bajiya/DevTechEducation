@@ -32,7 +32,7 @@ function AddCourses() {
   const [openFromDialogAddCourses, setOpenFromDialogAddCourses] =
     React.useState(true);
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   Course Successfully Alert State
@@ -47,18 +47,19 @@ function AddCourses() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (functionWorkStatus.status === "null") {
       setAddCourseSuccessfullyAlert(false);
       setAddCourseFailedAlert(false);
       setAddCourseErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setAddCourseSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setOpenFromDialogAddCourses(false);
+    } else if (functionWorkStatus.status === "fail") {
       setAddCourseFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setAddCourseErrorAlert(true);
     }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -81,15 +82,6 @@ function AddCourses() {
 
     // Call fetch function
     dispatch(addNewCourseFun(inputBoxValue));
-
-    // Empty form data
-    setInputBoxValue({
-      title: "",
-      description: "",
-      subDescription: "",
-      image: "",
-      fee: 0,
-    });
   };
 
   return (
@@ -199,7 +191,7 @@ function AddCourses() {
           </FormControl>
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

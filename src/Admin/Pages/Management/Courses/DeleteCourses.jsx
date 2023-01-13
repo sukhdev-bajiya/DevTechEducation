@@ -35,7 +35,7 @@ function DeleteCourses() {
   const [openFromDialogDeleteCourses, setOpenFromDialogDeleteCourses] =
     React.useState(true);
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   let devtechCourseList = getdatatoprint("c_c_course") || [];
@@ -54,21 +54,19 @@ function DeleteCourses() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (functionWorkStatus.status === "null") {
       setDeleteCoursesSuccessfullyAlert(false);
       setDeleteCoursesFailedAlert(false);
       setDeleteCoursesErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setDeleteCoursesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setOpenFromDialogDeleteCourses(false);
+    } else if (functionWorkStatus.status === "fail") {
       setDeleteCoursesFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setDeleteCoursesErrorAlert(true);
     }
-    if (devtechCourseList.length > 0) {
-      setInputActiveCourseBoxValue(devtechCourseList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputActiveCourseBoxValue, setInputActiveCourseBoxValue] =
@@ -137,6 +135,7 @@ function DeleteCourses() {
               onChange={(e) => setInputActiveCourseBoxValue(e.target.value)}
               name="activeCourse"
             >
+              <option value="">Select Course</option>
               {devtechCourseList.map((course, index) => (
                 <option key={index} value={course._id}>
                   {course.title} ({course.fee})
@@ -249,7 +248,7 @@ function DeleteCourses() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

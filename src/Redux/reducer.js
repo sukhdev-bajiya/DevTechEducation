@@ -32,7 +32,7 @@ const initState = {
   resetPasswordSuccessData: null,
 
   userProfileUpdate: { status: "null" },
-  addUserStatus: null,
+  functionWorkStatus: { status: "null" },
 };
 
 export const reducer = (state = initState, { type, payload }) => {
@@ -98,7 +98,7 @@ export const reducer = (state = initState, { type, payload }) => {
       };
     case ADD_USER_STATUS:
       return {
-        addUserStatus: payload,
+        functionWorkStatus: payload,
       };
     default:
       return state;

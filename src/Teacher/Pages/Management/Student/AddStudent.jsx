@@ -30,7 +30,7 @@ function AddStudent() {
   const [openFromDialogAddStudent, setOpenFromDialogAddStudent] =
     React.useState(true);
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   User Registered Successfully Alert State
@@ -46,18 +46,19 @@ function AddStudent() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (functionWorkStatus.status === "null") {
       setAddStudentSuccessfullyAlert(false);
       setAddStudentFailedAlert(false);
       setAddStudentErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setAddStudentSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setOpenFromDialogAddStudent(false);
+    } else if (functionWorkStatus.status === "fail") {
       setAddStudentFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setAddStudentErrorAlert(true);
     }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -81,13 +82,6 @@ function AddStudent() {
     // Call fetch function
     dispatch(addnewUserFun(inputBoxValue));
     // Empty form data
-    setInputBoxValue({
-      name: "",
-      email: "",
-      number: "",
-      dateofbirth: "",
-      role: "student",
-    });
   };
 
   return (
@@ -181,7 +175,7 @@ function AddStudent() {
           </FormControl>
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""
