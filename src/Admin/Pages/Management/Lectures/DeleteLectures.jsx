@@ -59,13 +59,18 @@ function DeleteLectures() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setDeleteLecturesSuccessfullyAlert(false);
       setDeleteLecturesFailedAlert(false);
       setDeleteLecturesErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setDeleteLecturesSuccessfullyAlert(true);
-      setOpenFromDialogDeleteLectures(false);
+      setTimeout(() => {
+        setOpenFromDialogDeleteLectures(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setDeleteLecturesFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -310,7 +315,7 @@ function DeleteLectures() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

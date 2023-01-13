@@ -55,13 +55,18 @@ function AddUnitSubject() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setAddSubjectSuccessfullyAlert(false);
       setAddSubjectFailedAlert(false);
       setAddSubjectErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setAddSubjectSuccessfullyAlert(true);
-      setOpenFromDialogAddUnitSubject(false);
+      setTimeout(() => {
+        setOpenFromDialogAddUnitSubject(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setAddSubjectFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -218,7 +223,7 @@ function AddUnitSubject() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

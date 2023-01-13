@@ -46,13 +46,18 @@ function AddTeacher() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setAddTeacherSuccessfullyAlert(false);
       setAddTeacherFailedAlert(false);
       setAddTeacherErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setAddTeacherSuccessfullyAlert(true);
-      setOpenFromDialogAddTeacher(false);
+      setTimeout(() => {
+        setOpenFromDialogAddTeacher(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setAddTeacherFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -174,7 +179,7 @@ function AddTeacher() {
           </FormControl>
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

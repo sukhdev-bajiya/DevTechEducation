@@ -60,13 +60,18 @@ function EditUnitSubjectData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setEditSubjectSuccessfullyAlert(false);
       setEditSubjectFailedAlert(false);
       setEditSubjectErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setEditSubjectSuccessfullyAlert(true);
-      setOpenFromDialogEditUnitSubjectData(false);
+      setTimeout(() => {
+        setOpenFromDialogEditUnitSubjectData(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setEditSubjectFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -272,7 +277,7 @@ function EditUnitSubjectData() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

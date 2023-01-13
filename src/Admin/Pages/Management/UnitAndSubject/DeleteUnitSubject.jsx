@@ -58,13 +58,18 @@ function DeleteUnitSubject() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setDeleteSubjectSuccessfullyAlert(false);
       setDeleteSubjectFailedAlert(false);
       setDeleteSubjectErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setDeleteSubjectSuccessfullyAlert(true);
-      setOpenFromDialogDeleteUnitSubject(false);
+      setTimeout(() => {
+        setOpenFromDialogDeleteUnitSubject(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setDeleteSubjectFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -270,7 +275,7 @@ function DeleteUnitSubject() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

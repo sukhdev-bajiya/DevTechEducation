@@ -88,13 +88,18 @@ function DeleteTeacher() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setDeactiveTeacherSuccessfullyAlert(false);
       setDeactiveTeacherFailedAlert(false);
       setDeactiveTeacherErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setDeactiveTeacherSuccessfullyAlert(true);
-      setOpenFromDialogDeleteTeacher(false);
+      setTimeout(() => {
+        setOpenFromDialogDeleteTeacher(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setDeactiveTeacherFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -212,7 +217,7 @@ function DeleteTeacher() {
           </FormControl>
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

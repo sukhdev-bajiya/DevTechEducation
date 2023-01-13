@@ -98,13 +98,18 @@ function EditStudentData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (functionWorkStatus.status === "null") {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setEditStudentSuccessfullyAlert(false);
       setEditStudentFailedAlert(false);
       setEditStudentErrorAlert(false);
     } else if (functionWorkStatus.status === "success") {
       setEditStudentSuccessfullyAlert(true);
-      setOpenFromDialogEditStudentData(false);
+      setTimeout(() => {
+        setOpenFromDialogEditStudentData(false);
+      }, 3000);
     } else if (functionWorkStatus.status === "fail") {
       setEditStudentFailedAlert(true);
     } else if (functionWorkStatus.status === "error") {
@@ -274,7 +279,7 @@ function EditStudentData() {
                   : false
               }
             >
-              {functionWorkStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""
