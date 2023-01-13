@@ -41,7 +41,7 @@ function DeleteUnitSubject() {
   let devtechCourseList = getdatatoprint("c_c_course") || [];
   let devtechSubjectList = getdatatoprint("c_s_course") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   Subject Successfully Alert State
@@ -58,22 +58,24 @@ function DeleteUnitSubject() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setDeleteSubjectSuccessfullyAlert(false);
       setDeleteSubjectFailedAlert(false);
       setDeleteSubjectErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setDeleteSubjectSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogDeleteUnitSubject(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setDeleteSubjectFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setDeleteSubjectErrorAlert(true);
     }
-
-    if (devtechSubjectList.length > 0) {
-      setInputuserBoxValue(devtechSubjectList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -109,16 +111,6 @@ function DeleteUnitSubject() {
 
     // Call fetch function
     dispatch(deleteSubjectFun(inputBoxValue));
-
-    // Empty form data
-    setInputreasonBoxValue("");
-    setInputBoxValue({
-      title: "",
-      description: "",
-      subDescription: "",
-      image: "",
-    });
-    setCourseName([]);
   };
 
   const [courseName, setCourseName] = React.useState([]);
@@ -154,6 +146,7 @@ function DeleteUnitSubject() {
               onChange={(e) => setInputuserBoxValue(e.target.value)}
               name="subject"
             >
+              <option value="">Select Subject</option>
               {devtechSubjectList.map((subject, index) => (
                 <option key={index} value={subject._id}>
                   {subject.title} ({subject.lectures.length})
@@ -282,7 +275,7 @@ function DeleteUnitSubject() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

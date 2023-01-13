@@ -7,10 +7,8 @@ import {
   SIGNUP_ERROR,
   SIGNUP_SUCCESS,
   RESETPASSWORD_LOADING,
-  RESETPASSWORD_ERROR,
   RESETPASSWORD_SUCCESS,
   RESETUSERNAME_LOADING,
-  RESETUSERNAME_ERROR,
   RESETUSERNAME_SUCCESS,
   USER_PROFILE_UPDATE,
   ADD_USER_STATUS,
@@ -29,14 +27,12 @@ const initState = {
 
   resetUsernameLoadingFlag: false,
   resetUsernameSuccessData: null,
-  resetUsernameErrorFlag: false,
 
   resetPasswordLoadingFlag: false,
   resetPasswordSuccessData: null,
-  resetPasswordErrorFlag: false,
 
-  userProfileUpdate: null,
-  addUserStatus: null,
+  userProfileUpdate: { status: "null" },
+  functionWorkStatus: { status: "null" },
 };
 
 export const reducer = (state = initState, { type, payload }) => {
@@ -80,11 +76,7 @@ export const reducer = (state = initState, { type, payload }) => {
       return {
         resetUsernameLoadingFlag: true,
       };
-    case RESETUSERNAME_ERROR:
-      return {
-        resetUsernameLoadingFlag: false,
-        resetUsernameErrorFlag: true,
-      };
+
     case RESETUSERNAME_SUCCESS:
       return {
         resetUsernameLoadingFlag: false,
@@ -94,11 +86,6 @@ export const reducer = (state = initState, { type, payload }) => {
     case RESETPASSWORD_LOADING:
       return {
         resetPasswordLoadingFlag: true,
-      };
-    case RESETPASSWORD_ERROR:
-      return {
-        resetPasswordLoadingFlag: false,
-        resetPasswordErrorFlag: true,
       };
     case RESETPASSWORD_SUCCESS:
       return {
@@ -111,7 +98,7 @@ export const reducer = (state = initState, { type, payload }) => {
       };
     case ADD_USER_STATUS:
       return {
-        addUserStatus: payload,
+        functionWorkStatus: payload,
       };
     default:
       return state;

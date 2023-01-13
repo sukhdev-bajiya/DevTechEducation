@@ -39,7 +39,7 @@ function AddUnitSubject() {
 
   let devtechCourseList = getdatatoprint("c_c_course") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   Subject Successfully Alert State
@@ -55,18 +55,24 @@ function AddUnitSubject() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setAddSubjectSuccessfullyAlert(false);
       setAddSubjectFailedAlert(false);
       setAddSubjectErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setAddSubjectSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogAddUnitSubject(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setAddSubjectFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setAddSubjectErrorAlert(true);
     }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -89,15 +95,6 @@ function AddUnitSubject() {
 
     // Call fetch function
     dispatch(addNewSubjectFun(inputBoxValue));
-
-    // Empty form data
-    setInputBoxValue({
-      title: "",
-      description: "",
-      subDescription: "",
-      image: "",
-    });
-    setCourseName([]);
   };
 
   const [courseName, setCourseName] = React.useState([]);
@@ -226,7 +223,7 @@ function AddUnitSubject() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

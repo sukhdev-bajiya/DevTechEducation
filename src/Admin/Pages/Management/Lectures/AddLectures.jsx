@@ -40,7 +40,7 @@ function AddLectures() {
 
   let devtechSubjectList = getdatatoprint("c_s_course") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   Lectures Successfully Alert State
@@ -57,18 +57,24 @@ function AddLectures() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setAddLecturesSuccessfullyAlert(false);
       setAddLecturesFailedAlert(false);
       setAddLecturesErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setAddLecturesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogAddLectures(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setAddLecturesFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setAddLecturesErrorAlert(true);
     }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -93,17 +99,6 @@ function AddLectures() {
 
     // Call fetch function
     dispatch(addNewLecturesFun(inputBoxValue));
-
-    // Empty form data
-    setInputBoxValue({
-      title: "",
-      description: "",
-      subDescription: "",
-      descriptionHtml: "",
-      image: "",
-      video: "",
-    });
-    setSubjectName([]);
   };
 
   const [subjectName, setSubjectName] = React.useState([]);
@@ -262,7 +257,7 @@ function AddLectures() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

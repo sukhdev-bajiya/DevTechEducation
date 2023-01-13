@@ -42,7 +42,7 @@ function EditLecturesData() {
   let devtechLectureList = getdatatoprint("c_l_course") || [];
   let devtechSubjectList = getdatatoprint("c_s_course") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   Lectures Successfully Alert State
@@ -59,22 +59,24 @@ function EditLecturesData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setEditLecturesSuccessfullyAlert(false);
       setEditLecturesFailedAlert(false);
       setEditLecturesErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setEditLecturesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogEditLectures(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setEditLecturesFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setEditLecturesErrorAlert(true);
     }
-
-    if (devtechLectureList.length > 0) {
-      setInputuserBoxValue(devtechLectureList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -119,17 +121,6 @@ function EditLecturesData() {
 
     // Call fetch function
     dispatch(editLecturesFun(inputBoxValue));
-
-    // Empty form data
-    setInputBoxValue({
-      title: "",
-      description: "",
-      subDescription: "",
-      descriptionHtml: "",
-      image: "",
-      video: "",
-    });
-    setSubjectName([]);
   };
 
   const [subjectName, setSubjectName] = React.useState([]);
@@ -165,6 +156,7 @@ function EditLecturesData() {
               onChange={(e) => setInputuserBoxValue(e.target.value)}
               name="subject"
             >
+              <option value="">Select Lecture</option>
               {devtechLectureList.map((lecture, index) => (
                 <option key={index} value={lecture._id}>
                   {lecture.title}
@@ -308,7 +300,7 @@ function EditLecturesData() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

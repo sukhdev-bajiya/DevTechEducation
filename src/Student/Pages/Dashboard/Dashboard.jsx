@@ -83,13 +83,6 @@ function Dashboard() {
   const makepaymentfun = (event) => {
     event.preventDefault();
     handleNext();
-
-    setCarddata({
-      cardnumber: "",
-      cardcvv: "",
-      cardexdate: "2025-01-01",
-      cardname: "",
-    });
   };
 
   const openBuyCoursOption = (index) => {

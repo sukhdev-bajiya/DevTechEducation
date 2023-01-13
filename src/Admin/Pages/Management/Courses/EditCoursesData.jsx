@@ -35,7 +35,7 @@ function EditCoursesData() {
   const [openFromDialogEditCoursesData, setOpenFromDialogEditCoursesData] =
     React.useState(true);
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   let devtechCourseList = getdatatoprint("c_c_course") || [];
@@ -54,21 +54,24 @@ function EditCoursesData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setEditCoursesSuccessfullyAlert(false);
       setEditCoursesFailedAlert(false);
       setEditCoursesErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setEditCoursesSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogEditCoursesData(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setEditCoursesFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setEditCoursesErrorAlert(true);
     }
-    if (devtechCourseList.length > 0) {
-      setInputActiveCourseBoxValue(devtechCourseList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputActiveCourseBoxValue, setInputActiveCourseBoxValue] =
@@ -119,20 +122,6 @@ function EditCoursesData() {
     inputBoxValue.id = inputActiveCourseBoxValue;
     // Call fetch function
     dispatch(editCourseFun(inputBoxValue));
-
-    // Empty form data
-    setInputtitleBoxValue("");
-    setInputdescriptionBoxValue("");
-    setInputsubDescriptionBoxValue("");
-    setInputimageBoxValue("");
-    setInputfeeBoxValue("");
-    setInputBoxValue({
-      title: "",
-      description: "",
-      subDescription: "",
-      image: "",
-      fee: 0,
-    });
   };
 
   return (
@@ -157,6 +146,7 @@ function EditCoursesData() {
               onChange={(e) => setInputActiveCourseBoxValue(e.target.value)}
               name="activeCourse"
             >
+              <option value="">Select Course</option>
               {devtechCourseList.map((course, index) => (
                 <option key={index} value={course._id}>
                   {course.title} ({course.fee})
@@ -338,7 +328,7 @@ function EditCoursesData() {
           </FormControl>
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

@@ -31,7 +31,7 @@ function DeleteTeacher() {
   const dispatch = useDispatch();
   let devtechUserList = getdatatoprint("c_t_user") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
 
   const [devTechUserData, setDevTechUserData] = React.useState({
     name: "",
@@ -70,13 +70,6 @@ function DeleteTeacher() {
 
     setInputreasonBoxValue("");
     setInputuserBoxValue("");
-    setDevTechUserData({
-      name: "",
-      username: "",
-      email: "",
-      number: "",
-      active: true,
-    });
   };
 
   //   User Successfully Alert State
@@ -95,21 +88,24 @@ function DeleteTeacher() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setDeactiveTeacherSuccessfullyAlert(false);
       setDeactiveTeacherFailedAlert(false);
       setDeactiveTeacherErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setDeactiveTeacherSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogDeleteTeacher(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setDeactiveTeacherFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setDeactiveTeacherErrorAlert(true);
     }
-    if (devtechUserList.length > 0) {
-      setInputuserBoxValue(devtechUserList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   return (
     <Dialog open={openFromDialogDeleteTeacher}>
@@ -132,6 +128,7 @@ function DeleteTeacher() {
               onChange={(e) => setInputuserBoxValue(e.target.value)}
               name="user"
             >
+              <option value="">Select Teacher</option>
               {devtechUserList.map((user, index) => (
                 <option key={index} value={user._id}>
                   {user.name} ({user.username})
@@ -220,7 +217,7 @@ function DeleteTeacher() {
           </FormControl>
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

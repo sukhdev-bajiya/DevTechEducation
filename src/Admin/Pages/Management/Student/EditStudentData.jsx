@@ -37,7 +37,7 @@ function EditStudentData() {
   const dispatch = useDispatch();
   let devtechUserList = getdatatoprint("c_s_user") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
 
   const [devTechUserData, setDevTechUserData] = React.useState({
     name: "",
@@ -82,12 +82,6 @@ function EditStudentData() {
     setInputusernameBoxValue("");
     setInputuseremailBoxValue("");
     setInputusernumberBoxValue("");
-    setDevTechUserData({
-      name: "",
-      username: "",
-      email: "",
-      number: "",
-    });
   };
 
   //   User Successfully Alert State
@@ -104,21 +98,24 @@ function EditStudentData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setEditStudentSuccessfullyAlert(false);
       setEditStudentFailedAlert(false);
       setEditStudentErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setEditStudentSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogEditStudentData(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setEditStudentFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setEditStudentErrorAlert(true);
     }
-    if (devtechUserList.length > 0) {
-      setInputuserBoxValue(devtechUserList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   return (
     <Dialog open={openFromDialogEditStudentData}>
@@ -141,6 +138,7 @@ function EditStudentData() {
               onChange={(e) => setInputuserBoxValue(e.target.value)}
               name="user"
             >
+              <option value="">Select Student</option>
               {devtechUserList.map((user, index) => (
                 <option key={index} value={user._id}>
                   {user.name} ({user.username})
@@ -281,7 +279,7 @@ function EditStudentData() {
                   : false
               }
             >
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""

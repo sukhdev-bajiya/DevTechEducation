@@ -43,7 +43,7 @@ function EditUnitSubjectData() {
   let devtechCourseList = getdatatoprint("c_c_course") || [];
   let devtechSubjectList = getdatatoprint("c_s_course") || [];
 
-  const { addUserStatus } = useSelector((state) => state);
+  const { functionWorkStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //   Subject Successfully Alert State
@@ -60,22 +60,24 @@ function EditUnitSubjectData() {
 
   // Alert State handle by Effect
   React.useEffect(() => {
-    if (!addUserStatus || !addUserStatus.status) {
+    if (
+      functionWorkStatus === undefined ||
+      functionWorkStatus.status === "null"
+    ) {
       setEditSubjectSuccessfullyAlert(false);
       setEditSubjectFailedAlert(false);
       setEditSubjectErrorAlert(false);
-    } else if (addUserStatus.status === "success") {
+    } else if (functionWorkStatus.status === "success") {
       setEditSubjectSuccessfullyAlert(true);
-    } else if (addUserStatus.status === "fail") {
+      setTimeout(() => {
+        setOpenFromDialogEditUnitSubjectData(false);
+      }, 3000);
+    } else if (functionWorkStatus.status === "fail") {
       setEditSubjectFailedAlert(true);
-    } else if (addUserStatus.status === "error") {
+    } else if (functionWorkStatus.status === "error") {
       setEditSubjectErrorAlert(true);
     }
-
-    if (devtechSubjectList.length > 0) {
-      setInputuserBoxValue(devtechSubjectList[0]._id);
-    }
-  }, [addUserStatus]);
+  }, [functionWorkStatus]);
 
   // Form data stored in state
   const [inputBoxValue, setInputBoxValue] = React.useState({
@@ -160,6 +162,7 @@ function EditUnitSubjectData() {
               onChange={(e) => setInputuserBoxValue(e.target.value)}
               name="subject"
             >
+              <option value="">Select Subject</option>
               {devtechSubjectList.map((subject, index) => (
                 <option key={index} value={subject._id}>
                   {subject.title} ({subject.lectures.length})
@@ -274,7 +277,7 @@ function EditUnitSubjectData() {
 
           <Stack direction="row" spacing={1} style={{ margin: "auto" }}>
             <Button type="submit">
-              {addUserStatus && addUserStatus.status === "loading" ? (
+              {functionWorkStatus && functionWorkStatus.status === "loading" ? (
                 <img src={freeLoadGif} alt="" style={{ width: "50px" }} />
               ) : (
                 ""
